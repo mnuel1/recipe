@@ -42,7 +42,7 @@ app.listen(process.env.PORT, () => {
     console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
 
-//  i run to para automatic gawin yung db tables 
+//  i run to para automatic gawin yung db tables  gege
 // sequelize.sync()
 //     .then(() => {
 //         console.log('Models synchronized with the database');
