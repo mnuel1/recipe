@@ -16,7 +16,7 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.post('/recipe/new', verify, insertRecipe);
+userRouter.post('/:id/recipe/new', verify, insertRecipe);
 userRouter.patch('/recipe/edit',  verify,editRecipe);
 userRouter.get('/recipes', viewAllRecipe);
 userRouter.get('/user/recipes/:userId', verify, getAllRecipeOfUser);
