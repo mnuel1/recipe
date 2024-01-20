@@ -9,7 +9,9 @@ const {
     deleteRecipe, 
     searchRecipe,
     getAllRecipeByCateg,
-    getRecipeByFilter 
+    getRecipeByFilter,
+    getTopPicks,
+    getRecommendForYou
 } = require('../controller/Recipe');
 
 const userRouter = express.Router();
@@ -21,5 +23,6 @@ userRouter.get('/user/recipes/:userId', verify, getAllRecipeOfUser);
 userRouter.delete('/recipe/delete/:recipeID',  deleteRecipe);
 userRouter.get('/recipe/search/:recipeName', searchRecipe);
 userRouter.get('/recipe/category/:category', getAllRecipeByCateg);
+userRouter.get('/recipe/toppicks', getTopPicks);
     
 module.exports = userRouter;

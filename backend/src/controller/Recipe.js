@@ -1,5 +1,6 @@
 const Recipe = require('../database/model/recipe');
-
+const Like = require('../database/model/like');
+const sequelize = require('../database')
 const insertRecipe = async (req, res) => {
 
     const newRecipeData = req.body;
@@ -49,7 +50,13 @@ const viewAllRecipe = async (req, res) => {
         if (!recipe) {
             return res.status(404).json({ msg: 'Recipe not found! ' });
         }
-        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe} );
+        const formattedRecipes = recipe.map(recipe => ({
+            ...recipe.dataValues,
+            ingredients: recipe.ingredients.split(',').map(item => item.trim()),
+            directions: recipe.directions.split(',').map(step => step.trim())
+        }));
+        
+        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe: formattedRecipes} );
     } catch (error) {
         res.status(500).send('Something went wrong!');
     }
@@ -160,17 +167,25 @@ const getRecipeByFilter = async (req, res) => {
 const getTopPicks = async (req, res) => {
 
     try {
-        const recipe = await Recipe.findAll({
-            where: {
-                category: req.params.category
-            }
-        })
-        if (!recipe) {
-            return res.status(404).json({ msg: 'Recipe not found! ' });
-        }
-        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe} );
+        const topRatedLikes = await Like.findAll({
+            attributes: [
+              'recipeId',
+              [sequelize.fn('avg', sequelize.col('rating')), 'avgRating'], // Calculate average rating
+            ],
+            group: ['recipeId'],
+            order: [[sequelize.literal('avgRating'), 'DESC']],
+            limit: 4,
+          });
+          
+        const topRatedRecipeIds = topRatedLikes.map((like) => like.recipeId);
+
+        const topRatedRecipes = await Recipe.findAll({
+            where: { id: topRatedRecipeIds },
+        });
+        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe: topRatedRecipes} );
 
     } catch (error) {
+        console.log(error);
         res.status(500).send('Something went wrong!');
     }
     

@@ -2,7 +2,7 @@ const User = require( "../database/model/user")
 const bcrypt = require('bcrypt');
 
 const Register = async(req, res) => {
-    try {
+    try {        
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
     
@@ -12,10 +12,11 @@ const Register = async(req, res) => {
             password: hashedPassword
         });
     
-        res.status(201).json({
+        return res.status(200).json({
             id: user.dataValues.id,
             name: user.dataValues.name,
             username: user.dataValues.username,
+            password: user.dataValues.password,
             msg: "Registration Successful!"
         });
     } catch (error) {
