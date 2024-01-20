@@ -1,7 +1,7 @@
 // models/recipe.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../index');
-const User = require('./user'); // Import the User model
+const User = require('./user');
 
 const Recipe = sequelize.define('Recipe', {
     id: {
@@ -10,12 +10,36 @@ const Recipe = sequelize.define('Recipe', {
         primaryKey: true,
         allowNull: false,
     },
+    image: {
+        type: DataTypes.BLOB, 
+        allowNull: true, 
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    category: {
+    calories: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    serving: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    difficulty: {
+        type: DataTypes.ENUM('Easy', 'Medium', 'Hard'),
+        allowNull: false,
+    },    
+    meal: {
         type: DataTypes.ENUM('Breakfast', 'Lunch', 'Meryenda', 'Dinner'),
+        allowNull: false,
+    },
+    prepTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    cookTime: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     ingredients: {

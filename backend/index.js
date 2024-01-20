@@ -38,20 +38,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(authRouter);
 app.use(userRouter);
 
-// app.listen(process.env.PORT, () => {
-//     console.log(`Server is running on http://localhost:${process.env.PORT}`);
-// });
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on http://localhost:${process.env.PORT}`);
+});
 
 //  i run to para automatic gawin yung db tables  gege
-sequelize.sync()
-    .then(() => {
-        console.log('Models synchronized with the database');
+// remove { force: true } if done changing the db
+// add it if di pa naiiba yung db para maupdate yung tables
+// be careful since i drodrop yung mga tables if na run yan
+// sequelize.sync({ force: true })
+//     .then(() => {
+//         console.log('Models synchronized with the database');
 
     
-        app.listen(process.env.PORT, () => {
-            console.log(`Server is running on http://localhost:${process.env.PORT}`);
-        });
-    })
-    .catch((error) => {
-        console.error('Error synchronizing models with the database:', error);
-    });
+//         app.listen(process.env.PORT, () => {
+//             console.log(`Server is running on http://localhost:${process.env.PORT}`);
+//         });
+//     })
+//     .catch((error) => {
+//         console.error('Error synchronizing models with the database:', error);
+// });

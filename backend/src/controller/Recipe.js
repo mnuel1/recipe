@@ -132,15 +132,71 @@ const getAllRecipeByCateg = async (req, res) => {
         }
         res.status(200).json({msg: 'Succesfully fetch the recipes', recipe} );
 
-    }catch (error) {
+    } catch (error) {
         res.status(500).send('Something went wrong!');
     }
     
 
 }
+
 const getRecipeByFilter = async (req, res) => {
+   
+    try {
+        const sortBy = req.query.sortBy || 'name';
+        const sortOrder = req.query.sortOrder || 'ASC'; 
+        
+        const recipes = await Recipe.findAll({
+            order: [[sortBy, sortOrder]],
+        });
+
+        res.status(200).json({ recipes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong!');
+    }
+    
+}
+
+const getTopPicks = async (req, res) => {
+
+    try {
+        const recipe = await Recipe.findAll({
+            where: {
+                category: req.params.category
+            }
+        })
+        if (!recipe) {
+            return res.status(404).json({ msg: 'Recipe not found! ' });
+        }
+        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe} );
+
+    } catch (error) {
+        res.status(500).send('Something went wrong!');
+    }
+    
+}
+
+const getRecommendForYou = async (req, res) => {
+
+    try {
+        const recipe = await Recipe.findAll({
+            where: {
+                category: req.params.category
+            }
+        })
+
+        if (!recipe) {
+            return res.status(404).json({ msg: 'Recipe not found! ' });
+        }
+        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe} );
+
+    } catch (error) {
+        res.status(500).send('Something went wrong!');
+    }
+    
 
 }
+
 
 module.exports = {
     insertRecipe,
@@ -150,5 +206,7 @@ module.exports = {
     deleteRecipe,
     searchRecipe,
     getAllRecipeByCateg,
-    getRecipeByFilter
+    getRecipeByFilter,
+    getTopPicks,
+    getRecommendForYou
 }
