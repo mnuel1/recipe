@@ -38,24 +38,25 @@ const Login = async(req, res) => {
             return res.status(401).json({ msg: "Username doesn't exist!" });
         }
         
-        await bcrypt.compare(user.dataValues.password, req.body.username, (err, result) => {
+        bcrypt.compare(req.body.password, user.dataValues.password, (err, result) => {
             if (err) {
                 console.error('Error comparing passwords:', err);
                 return res.status(404).json({ msg: "Something went wrong. Please try again later!" });
-            } 
+            }
             if (!result) {
                 return res.status(401).json({ msg: "Wrong Password!" });
-            }         
+            }
+
+            req.session.userId = user.dataValues.id;
+
+            return res.status(200).json({
+                id: user.dataValues.id,
+                name: user.dataValues.name,
+                username: user.dataValues.username,
+                msg: "Login Successful!"
+            });
         });
-    
-        req.session.userId = user.dataValues.id;
-    
-        res.status(200).json({
-            id: user.dataValues.id,
-            name: user.dataValues.name,
-            username: user.dataValues.username,
-            msg: "Login Successful!"
-        })
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Something went wrong!" });
