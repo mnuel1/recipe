@@ -4,7 +4,7 @@ const sequelize = require('../index');
 const Comment = require('./comment');
 
 
-const Reply = sequelize.define('Reply', {
+const Reply = sequelize.define('Replies', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

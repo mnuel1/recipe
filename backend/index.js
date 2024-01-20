@@ -7,7 +7,9 @@ const SequelizeStore = require('connect-session-sequelize');
 const cors = require('cors');
 
 const sequelize = require('./src/database')
-
+// const Like = require('./src/database/model/like')
+// const Comment = require('./src/database/model/Comment')
+// const Reply = require('./src/database/model/Reply')
 
 require('dotenv').config();
 
@@ -58,3 +60,33 @@ app.listen(process.env.PORT, () => {
 //     .catch((error) => {
 //         console.error('Error synchronizing models with the database:', error);
 // });
+
+// if ayaw mag sync gamit nung nasa taas yung new tables pa uncomment nalang eto
+// and yung mga nasa taas na require
+
+// Like.sync()
+//     .then(() => {
+//         console.log('Like table synchronized with the database');
+//     })
+//     .catch((error) => {
+//         console.error('Error synchronizing Like table with the database:', error);
+//     });
+
+
+
+// Comment.sync()
+//     .then(() => {
+//         console.log('Like table synchronized with the database');
+//     })
+//     .catch((error) => {
+//         console.error('Error synchronizing Like table with the database:', error);
+//     });
+
+
+// Reply.sync()
+//     .then(() => {
+//         console.log('Like table synchronized with the database');
+//     })
+//     .catch((error) => {
+//         console.error('Error synchronizing Like table with the database:', error);
+//     });
