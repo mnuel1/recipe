@@ -1,6 +1,29 @@
 const User = require( "../database/model/user")
 const bcrypt = require('bcrypt');
 
+const Register = async(req, res) => {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    
+        const user = await User.create({
+            name: req.body.name,
+            username: req.body.username,
+            password: hashedPassword
+        });
+    
+        res.status(201).json({
+            id: user.dataValues.id,
+            name: user.dataValues.name,
+            username: user.dataValues.username,
+            msg: "Registration Successful!"
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ msg: "Something went wrong!" });
+    }
+}
+
 const Login = async(req, res) => {
 
     try {
@@ -53,7 +76,10 @@ const Logout = async(req, res) => {
     });
 }
 
+
+
 module.exports = {
+    Register,
     Login,
     Logout
 }
