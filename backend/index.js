@@ -20,7 +20,7 @@ const store = new sessionStore({
 
 app.use(
   session({
-    secret: crypto.randomBytes(32).toString("hex"), // Change this to a secure secret key
+    secret: process.env.SECRET, // Change this to a secure secret key
     resave: false,
     saveUninitialized: false,
     cookie: {
