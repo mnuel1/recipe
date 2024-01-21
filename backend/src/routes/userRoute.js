@@ -1,5 +1,6 @@
 const express = require('express');
 const verify = require('../middleware/verify');
+const upload = require('../middleware/uploadMiddleWare');
 
 const { 
     insertRecipe,
@@ -16,7 +17,7 @@ const {
 
 const userRouter = express.Router();
 
-userRouter.post('/:id/recipe/new', verify, insertRecipe);
+userRouter.post('/:id/recipe/new', verify, upload.single("file"), insertRecipe);
 userRouter.patch('/recipe/edit',  verify,editRecipe);
 userRouter.get('/recipes', viewAllRecipe);
 userRouter.get('/user/recipes/:userId', verify, getAllRecipeOfUser);

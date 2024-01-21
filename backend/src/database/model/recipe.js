@@ -14,7 +14,7 @@ const Recipe = sequelize.define('Recipe', {
         type: DataTypes.STRING, 
         allowNull: true, 
     },
-    name: {
+    title: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -30,7 +30,7 @@ const Recipe = sequelize.define('Recipe', {
         type: DataTypes.ENUM('Easy', 'Medium', 'Hard'),
         allowNull: false,
     },    
-    meal: {
+    mealType: {
         type: DataTypes.ENUM('Breakfast', 'Lunch', 'Meryenda', 'Dinner'),
         allowNull: false,
     },
@@ -43,15 +43,11 @@ const Recipe = sequelize.define('Recipe', {
         allowNull: false,
     },
     ingredients: {
-        type: DataTypes.STRING(800),
+        type: DataTypes.STRING,
         allowNull: false,
     },
     directions: {
-        type: DataTypes.STRING(800),
-        allowNull: false,
-    },
-    description: {
-        type: DataTypes.STRING(800),
+        type: DataTypes.STRING,
         allowNull: false,
     },
     userId: {

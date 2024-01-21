@@ -4,6 +4,7 @@ const sequelize = require('../database')
 const insertRecipe = async (req, res) => {
 
     const newRecipeData = req.body;
+    newRecipeData.image = "uploads/" + req.file.filename;
 
     await Recipe.create(newRecipeData)
     .then(newRecipe => {
