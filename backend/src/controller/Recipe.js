@@ -43,7 +43,8 @@ const editRecipe = async (req, res) =>
 }
 
 const viewAllRecipe = async (req, res) => {
-    
+    res.setHeader('Cache-Control', 'no-cache');
+
     try {
         const recipe = await Recipe.findAll();
 
@@ -52,8 +53,8 @@ const viewAllRecipe = async (req, res) => {
         }
         const formattedRecipes = recipe.map(recipe => ({
             ...recipe.dataValues,
-            ingredients: recipe.ingredients.split(',').map(item => item.trim()),
-            directions: recipe.directions.split(',').map(step => step.trim())
+            ingredients: recipe.ingredients.split(',,').map(item => item.trim()),
+            directions: recipe.directions.split(',,').map(step => step.trim())
         }));
         
         res.status(200).json({msg: 'Succesfully fetch the recipes', recipe: formattedRecipes} );
@@ -165,31 +166,74 @@ const getRecipeByFilter = async (req, res) => {
 }
 
 const getTopPicks = async (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
-    try {
+    try {        
         const topRatedLikes = await Like.findAll({
             attributes: [
-              'recipeId',
-              [sequelize.fn('avg', sequelize.col('rating')), 'avgRating'], // Calculate average rating
+                'recipeId',
+                [sequelize.fn('avg', sequelize.col('rating')), 'avgRating'],
             ],
             group: ['recipeId'],
             order: [[sequelize.literal('avgRating'), 'DESC']],
             limit: 4,
-          });
-          
-        const topRatedRecipeIds = topRatedLikes.map((like) => like.recipeId);
+        });
 
+        const topRatedRecipeIds = topRatedLikes.map((like) => like.recipeId);
+        
         const topRatedRecipes = await Recipe.findAll({
             where: { id: topRatedRecipeIds },
         });
-        res.status(200).json({msg: 'Succesfully fetch the recipes', recipe: topRatedRecipes} );
+        
+        if (topRatedLikes.length === 0) {            
+            const currentTime = new Date().getHours();
+            let mealType = 'Breakfast';
+
+            if (currentTime >= 6 && currentTime <= 8) {
+                mealType = 'Breakfast';
+            } else if (currentTime >= 12 && currentTime < 13) {
+                mealType = 'Lunch';
+            } else if (currentTime >= 15 && currentTime < 16) {
+                mealType = 'Meryenda';
+            } else if (currentTime >= 18 && currentTime < 20) {
+                mealType = 'Dinner';
+            }            
+            const recipesByTime = await Recipe.findAll({
+                where: { meal: mealType },
+                limit: 4,
+            });
+
+            const formattedRecipes = recipesByTime.map(recipe => ({
+                ...recipe.dataValues,
+                ingredients: recipe.ingredients.split(',,').map(item => item.trim()),
+                directions: recipe.directions.split(',,').map(step => step.trim())
+            }));    
+            res.status(200).json({
+                msg: 'Successfully fetch the recipes',
+                recipe: formattedRecipes,
+            });
+        } else {         
+            const formattedRecipes = topRatedRecipes.map(recipe => ({
+                ...recipe.dataValues,
+                ingredients: recipe.ingredients.split(',,').map(item => item.trim()),
+                directions: recipe.directions.split(',,').map(step => step.trim())
+            }));    
+            res.status(200).json({
+                msg: 'Successfully fetch the recipes',
+                recipe: formattedRecipes,
+            });
+        }
 
     } catch (error) {
         console.log(error);
         res.status(500).send('Something went wrong!');
     }
-    
-}
+};
+
+module.exports = { getTopPicks };
+
 
 const getRecommendForYou = async (req, res) => {
 

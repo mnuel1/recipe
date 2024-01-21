@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-
+app.disable('etag');
 app.use(authRouter);
 app.use(userRouter);
 
