@@ -12,6 +12,7 @@ require("dotenv").config();
 
 const authRouter = require("./src/routes/authRoute");
 const userRouter = require("./src/routes/userRoute");
+const uploadsRouter = require("./src/routes/uploadsRoute");
 
 const sessionStore = SequelizeStore(session.Store);
 const store = new sessionStore({
@@ -45,6 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(authRouter);
 app.use(userRouter);
+app.use(uploadsRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
