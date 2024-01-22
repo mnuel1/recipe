@@ -202,7 +202,7 @@ const getTopPicks = async (req, res) => {
                 mealType = 'Dinner';
             }            
             const recipesByTime = await Recipe.findAll({
-                where: { meal: mealType },
+                where: { mealType: mealType },
                 limit: 4,
             });
 
