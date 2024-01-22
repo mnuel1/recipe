@@ -14,7 +14,7 @@ const Recipe = sequelize.define('Recipe', {
         type: DataTypes.STRING, 
         allowNull: true, 
     },
-    title: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -45,11 +45,11 @@ const Recipe = sequelize.define('Recipe', {
     ingredients: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+    },   
     directions: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+    },   
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,

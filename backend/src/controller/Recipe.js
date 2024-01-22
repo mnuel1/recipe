@@ -52,6 +52,7 @@ const viewAllRecipe = async (req, res) => {
         if (!recipe) {
             return res.status(404).json({ msg: 'Recipe not found! ' });
         }
+        console.log(recipe);
         const formattedRecipes = recipe.map(recipe => ({
             ...recipe.dataValues,
             ingredients: recipe.ingredients.split(',,').map(item => item.trim()),
@@ -60,6 +61,7 @@ const viewAllRecipe = async (req, res) => {
         
         res.status(200).json({msg: 'Succesfully fetch the recipes', recipe: formattedRecipes} );
     } catch (error) {
+        console.log(error);
         res.status(500).send('Something went wrong!');
     }
 
@@ -202,7 +204,7 @@ const getTopPicks = async (req, res) => {
                 mealType = 'Dinner';
             }            
             const recipesByTime = await Recipe.findAll({
-                where: { meal: mealType },
+                where: { mealType: mealType },
                 limit: 4,
             });
 
