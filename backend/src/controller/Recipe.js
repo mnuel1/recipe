@@ -1,10 +1,20 @@
 const Recipe = require('../database/model/recipe');
 const Like = require('../database/model/like');
 const sequelize = require('../database')
-const insertRecipe = async (req, res) => {
 
+const insertRecipe = async (req, res) => {
     const newRecipeData = req.body;
     newRecipeData.image = "uploads/" + req.file.filename;
+
+    // Replace single commas with double commas in ingredients
+    if (newRecipeData.ingredients) {
+        newRecipeData.ingredients = newRecipeData.ingredients.replace(/,/g, ",,");
+    }
+
+    // Replace single commas with double commas in directions
+    if (newRecipeData.directions) {
+        newRecipeData.directions = newRecipeData.directions.replace(/,/g, ",,");
+    }
 
     await Recipe.create(newRecipeData)
     .then(newRecipe => {
@@ -15,7 +25,6 @@ const insertRecipe = async (req, res) => {
         console.error('Error creating recipe:', error);
         res.status(500).send('Error creating recipe');
     });
-
 }
 
 const editRecipe = async (req, res) => 
