@@ -1,0 +1,26 @@
+
+  
+.spinner-img {
+  width: 150px; 
+  height: 150px;
+  animation: bounceAndRotate 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;    
+}
+
+@keyframes bounceAndRotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-30px) rotate(180deg);
+  }
+  50% {
+    transform: translateY(0) rotate(360deg);
+  }
+  75% {
+    transform: translateY(-15px) rotate(540deg);
+  }
+  100% {
+    transform: translateY(0) rotate(720deg);
+  }
+}
+  

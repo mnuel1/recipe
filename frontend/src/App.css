@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+body {
+  background-color: #f3f3f5;
+  overflow-x: hidden;
+}
+
+/* @media (min-width: 1531px) {
+  body {
+    overflow-y: hidden;
+  }
+} */
+
+.container {
+  margin: 0 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .container {
+    margin: 0 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    margin: 0 4rem;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    margin: 0 6rem;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    margin: 0 10rem;
+  }
+}
+
+.card-container:hover p {
+  color: #f3f3f5;
+}
+
+.card-container:hover .line,
+.card-container:hover .img-bg {
+  background-color: #f3f3f5;
+}
+
+/* .card-container:hover .img-bg {
+  background-color: #f3f3f5;
+} */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.modal-create::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-create {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
